@@ -2,7 +2,7 @@
 
 I'm Trevor. I'm a graduate student in bioinformatics interested in data visualization and open-source software.
 
-🔭 I’m currently working on 🚄 Vitessce and Zarr.js
+🔭 I’m currently working on Viv, 🚄 Vitessce, and Zarr.js
 
 🌱 I’m currently learning Rust + WebAssembly 🦀
 
