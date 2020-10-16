@@ -4,7 +4,7 @@ I'm Trevor. I'm a graduate student in bioinformatics interested in data visualiz
 
 🔭 I’m currently working on Viv, 🚄 Vitessce, and Zarr.js
 
-🌱 I’m currently learning Rust + WebAssembly 🦀
+🌱 Learning Rust + WebAssembly 🦀
 
 💬 Ask me about life in Boston, the web, breadmaking
 
