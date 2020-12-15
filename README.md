@@ -2,6 +2,7 @@
 
 I'm Trevor. I'm a graduate student in bioinformatics interested in data visualization and open-source software.
 
+<!--
 🔭 I’m currently working on Viv, 🚄 Vitessce, and Zarr.js
 
 🌱 Learning Rust + WebAssembly 🦀
@@ -14,7 +15,6 @@ I'm Trevor. I'm a graduate student in bioinformatics interested in data visualiz
 
 📫 How to reach me: email or on twitter _@trevmanz_
 
-<!--
 **manzt/manzt** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
 Here are some ideas to get you started:
