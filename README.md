@@ -2,6 +2,8 @@
 
 I'm Trevor. I'm a graduate student in bioinformatics interested in data visualization and open-source software.
 
+twitter: https://twitter.com/trevmanz
+
 <!--
 🔭 I’m currently working on Viv, 🚄 Vitessce, and Zarr.js
 
