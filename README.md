@@ -4,6 +4,8 @@ I'm Trevor. I'm a graduate student in bioinformatics interested in data visualiz
 
 twitter: https://twitter.com/trevmanz
 
+buy me a coffee ☕: https://www.buymeacoffee.com/manzt
+
 <!--
 🔭 I’m currently working on Viv, 🚄 Vitessce, and Zarr.js
 
