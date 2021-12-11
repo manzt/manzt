@@ -1,34 +1,10 @@
-### Hi there 👋
 
-I'm Trevor. I'm a graduate student in bioinformatics interested in data visualization and open-source software.
-
-twitter: https://twitter.com/trevmanz
-
-buy me a coffee ☕: https://www.buymeacoffee.com/manzt
-
-<!--
-🔭 I’m currently working on Viv, 🚄 Vitessce, and Zarr.js
-
-🌱 Learning Rust + WebAssembly 🦀
-
-💬 Ask me about life in Boston, the web, breadmaking
-
-😄 Pronouns: he / him / his
-
-⚡ Fun fact: I swam competitively for 18 years
-
-📫 How to reach me: email or on twitter _@trevmanz_
-
-**manzt/manzt** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-
-Here are some ideas to get you started:
-
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+<p align="center">
+  <span>I'm a graduate student in bioinformatics interested in data visualization and open-source software.</span>
+  <br>
+  <samp>
+    <a href="https://trevorma.nz">me</a> .
+    <a href="https://twitter.com/trevmanz">twitter</a> .
+    <a href="https://www.buymeacoffee.com/manzt">buy me a coffee</a>
+  </samp>
+</p>
