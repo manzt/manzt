@@ -5,6 +5,7 @@
   <br>
   <samp>
     <a href="https://trevorma.nz">me</a> .
+    <a href="mailto:trevor_manz@g.harvard.edu">email</a> .
     <a href="https://twitter.com/trevmanz">twitter</a> .
     <a href="https://www.buymeacoffee.com/manzt">buy me a coffee</a>
   </samp>
