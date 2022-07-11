@@ -1,7 +1,16 @@
 import { serve } from "https://deno.land/std@0.142.0/http/server.ts";
-import { bold, green, gray, cyan, yellow, blue } from "https://deno.land/std@0.147.0/fmt/colors.ts";
+import {
+	blue,
+	bold,
+	cyan,
+	gray,
+	green,
+	yellow,
+	setColorEnabled,
+} from "https://deno.land/std@0.147.0/fmt/colors.ts";
 
-let text = `\
+// deno-fmt-ignore
+let text = () => `\
 ${green("   ╭───────────────────────────────────────────────────╮")}
 ${green("   │                                                   │")}
 ${green("   │")}               trevor manz  ${green("/")}  manzt               ${green("│")}
@@ -38,5 +47,8 @@ serve((req: Request) => {
 			headers: { "content-type": "text/html" },
 		});
 	}
-	return new Response(text);
+	if (Number(req.headers.get("NO_COLOR") ?? "0")) {
+		setColorEnabled(false);
+	}
+	return new Response(text());
 });
