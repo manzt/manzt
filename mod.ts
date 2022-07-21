@@ -5,8 +5,8 @@ import {
 	cyan,
 	gray,
 	green,
-	yellow,
 	setColorEnabled,
+	yellow,
 } from "https://deno.land/std@0.147.0/fmt/colors.ts";
 
 // deno-fmt-ignore
@@ -41,13 +41,42 @@ let html = `\
 	</p>
 </samp>`;
 
+let tsconfig = {
+	"compilerOptions": {
+		"module": "node16",
+		"moduleResolution": "node16",
+		"moduleDetection": "force",
+		"target": "ES2020",
+		"lib": ["DOM", "DOM.Iterable", "ES2020"],
+		"declaration": true,
+		"strict": true,
+		"noImplicitReturns": true,
+		"noImplicitOverride": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"noEmitOnError": true,
+		"useDefineForClassFields": true,
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
+	},
+};
+
 serve((req: Request) => {
+	let url = new URL(req.url);
+	if (url.pathname === "/tsconfig.json") {
+		return new Response(JSON.stringify(tsconfig, null, "\t"), {
+			headers: { "content-type": "application/json" },
+		});
+	}
 	if (req.headers.get("Accept")?.includes("text/html")) {
 		return new Response(html, {
 			headers: { "content-type": "text/html" },
 		});
 	}
-	if (Number(req.headers.get("NO_COLOR") ?? "0")) {
+	if (url.searchParams.get("nocolor")) {
 		setColorEnabled(false);
 	}
 	return new Response(text());
