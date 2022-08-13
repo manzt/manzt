@@ -19,29 +19,6 @@ ${green("   │                                                   │")}
 ${green("   ╰───────────────────────────────────────────────────╯")}
 `;
 
-let tsconfig = {
-	"compilerOptions": {
-		"module": "node16",
-		"moduleResolution": "node16",
-		"moduleDetection": "force",
-		"target": "ES2020",
-		"lib": ["DOM", "DOM.Iterable", "ES2020"],
-		"declaration": true,
-		"strict": true,
-		"noImplicitReturns": true,
-		"noImplicitOverride": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"noFallthroughCasesInSwitch": true,
-		"noUncheckedIndexedAccess": true,
-		"noPropertyAccessFromIndexSignature": true,
-		"noEmitOnError": true,
-		"useDefineForClassFields": true,
-		"forceConsistentCasingInFileNames": true,
-		"skipLibCheck": true,
-	},
-};
-
 let _html = `\
 <!doctype html>
 <samp>
@@ -57,10 +34,11 @@ let _html = `\
 </samp>
 `;
 
-serve((req: Request) => {
+serve(async (req: Request) => {
 	let url = new URL(req.url);
 	if (url.pathname === "/tsconfig.json") {
-		return new Response(JSON.stringify(tsconfig, null, "\t"), {
+		let url = new URL("./tsconfig.json", import.meta.url);
+		return new Response(await Deno.readTextFile(url), {
 			headers: { "content-type": "application/json" },
 		});
 	}
