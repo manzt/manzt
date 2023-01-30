@@ -34,12 +34,30 @@ let _html = `\
 </samp>
 `;
 
+let blank = `\
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>title</title>
+		<link rel="stylesheet">
+		<script></script>
+	</head>
+	<body></body>
+</html>
+`;
+
 serve(async (req: Request) => {
 	let url = new URL(req.url);
 	if (url.pathname === "/tsconfig.json") {
 		let url = new URL("./tsconfig.json", import.meta.url);
 		return new Response(await Deno.readTextFile(url), {
 			headers: { "content-type": "application/json" },
+		});
+	}
+	if (url.pathname === "/blank.html") {
+		return new Response(blank, {
+			headers: { "content-type": "text/html" },
 		});
 	}
 	if (req.headers.get("Accept")?.includes("text/html")) {
