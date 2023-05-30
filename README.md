@@ -1,4 +1,3 @@
-
 <p align="center">
   <span>I'm a graduate student in bioinformatics interested in data visualization and open-source software.</span>
   <br>

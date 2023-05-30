@@ -51,9 +51,11 @@ serve(async (req: Request) => {
 	let url = new URL(req.url);
 	if (url.pathname === "/tsconfig.json") {
 		let url = new URL("./tsconfig.json", import.meta.url);
-		return new Response(await Deno.readTextFile(url), {
-			headers: { "content-type": "application/json" },
-		});
+		return Response.json(await Deno.readTextFile(url));
+	}
+	if (url.pathname === "/deno.json") {
+		let url = new URL("./deno.json", import.meta.url);
+		return Response.json(await Deno.readTextFile(url));
 	}
 	if (url.pathname === "/blank.html") {
 		return new Response(blank, {
