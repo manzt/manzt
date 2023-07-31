@@ -1,5 +1,4 @@
-import { serve } from "https://deno.land/std@0.142.0/http/server.ts";
-import { bold, gray, green } from "https://deno.land/std@0.147.0/fmt/colors.ts";
+import { bold, gray, green } from "https://deno.land/std@0.196.0/fmt/colors.ts";
 
 // deno-fmt-ignore
 let text = `\
@@ -47,7 +46,7 @@ let blank = `\
 </html>
 `;
 
-serve(async (req: Request) => {
+Deno.serve(async (req: Request) => {
 	let url = new URL(req.url);
 	if (url.pathname === "/tsconfig.json") {
 		let url = new URL("./tsconfig.json", import.meta.url);
