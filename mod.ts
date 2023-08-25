@@ -46,6 +46,13 @@ let blank = `\
 </html>
 `;
 
+let redirect = `\
+<!doctype html>
+<script>
+	window.location.href = "mailto:trevor_manz@harvard.edu?subject=CEV%20User%20Study%20Request";
+</script>
+`;
+
 Deno.serve(async (req: Request) => {
 	let url = new URL(req.url);
 	if (url.pathname === "/tsconfig.json") {
@@ -66,7 +73,9 @@ Deno.serve(async (req: Request) => {
 		});
 	}
 	if (url.pathname === "/study") {
-		return Response.redirect("mailto:trevor_manz@harvard.edu?subject=CEV%20User%20Study%20Request");
+		return new Response(redirect, {
+			headers: { "content-type": "text/html" },
+		});
 	}
 	if (req.headers.get("Accept")?.includes("text/html")) {
 		return Response.redirect("https://trevorma.nz");
