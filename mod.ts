@@ -65,6 +65,9 @@ Deno.serve(async (req: Request) => {
 			headers: { "content-type": "text/html" },
 		});
 	}
+	if (url.pathname === "/study") {
+		return Response.redirect("mailto:trevor_manz@harvard.edu?subject=CEV%20User%20Study%20Request");
+	}
 	if (req.headers.get("Accept")?.includes("text/html")) {
 		return Response.redirect("https://trevorma.nz");
 	}
