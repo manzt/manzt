@@ -65,11 +65,6 @@ Deno.serve(async (req: Request) => {
 			headers: { "content-type": "text/html" },
 		});
 	}
-	if (url.pathname === "/study") {
-		return Response.redirect(
-			"https://calendly.com/manzt/smith-center-embedding-comparison-user-study-clone?month=2023-09",
-		);
-	}
 	if (req.headers.get("Accept")?.includes("text/html")) {
 		return Response.redirect("https://trevorma.nz");
 	}
