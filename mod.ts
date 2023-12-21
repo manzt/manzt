@@ -1,4 +1,5 @@
-import { bold, gray, green } from "https://deno.land/std@0.196.0/fmt/colors.ts";
+import * as toml from "https://deno.land/std@0.210.0/toml/mod.ts";
+import { bold, gray, green } from "https://deno.land/std@0.210.0/fmt/colors.ts";
 
 // deno-fmt-ignore
 let text = `\
@@ -46,6 +47,29 @@ let blank = `\
 </html>
 `;
 
+function pyproject_toml(params: URLSearchParams) {
+	const text = toml.stringify({
+		"build-system": {
+			"requires": ["hatchling"],
+			"build-backend": "hatchling.build",
+		},
+		"project": {
+			"name": params.get("name") ?? "project",
+			"version": params.get("version") ?? "0.0.0",
+			"description": params.get("description") ?? "",
+			"requires-python": params.get("requires-python") ?? ">=3.8",
+			"dependencies": [],
+		},
+		"tool.hatch.envs.default": {
+			...(params.has("python") ? { "python": params.get("python") } : {}),
+			"dependencies": [],
+		},
+	});
+	// toml.stringify adds a newline at the beginning of the string.
+	// This just removes it.
+	return text.replace(/^\n/, "");
+}
+
 Deno.serve(async (req: Request) => {
 	let url = new URL(req.url);
 	if (url.pathname === "/tsconfig.json") {
@@ -58,6 +82,11 @@ Deno.serve(async (req: Request) => {
 		let url = new URL("./deno.json", import.meta.url);
 		return new Response(await Deno.readTextFile(url), {
 			headers: { "content-type": "application/json" },
+		});
+	}
+	if (url.pathname === "/pyproject.toml") {
+		return new Response(pyproject_toml(url.searchParams), {
+			headers: { "content-type": "text/toml" },
 		});
 	}
 	if (url.pathname === "/blank.html") {
