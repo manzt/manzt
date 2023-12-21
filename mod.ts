@@ -89,7 +89,7 @@ Deno.serve(async (req: Request) => {
 			headers: { "content-type": "text/toml" },
 		});
 	}
-	if (url.pathname === "/blank.html") {
+	if (url.pathname === "/index.html") {
 		return new Response(blank, {
 			headers: { "content-type": "text/html" },
 		});
