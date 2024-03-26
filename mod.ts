@@ -1,5 +1,4 @@
-import * as toml from "https://deno.land/std@0.210.0/toml/mod.ts";
-import { bold, gray, green } from "https://deno.land/std@0.210.0/fmt/colors.ts";
+import { bold, gray, green } from "jsr:@std/fmt@^0.220.1/colors";
 
 // deno-fmt-ignore
 let text = `\
@@ -32,7 +31,7 @@ let _html = `\
 		<a href="https://www.buymeacoffee.com/manzt">buy me a coffee</a>
 	</p>
 </samp>
-`;
+`.trim();
 
 let blank = `\
 <!doctype html>
@@ -45,29 +44,24 @@ let blank = `\
 	</head>
 	<body></body>
 </html>
-`;
+`.trim();
 
 function pyproject_toml(params: URLSearchParams) {
-	const text = toml.stringify({
-		"build-system": {
-			"requires": ["hatchling"],
-			"build-backend": "hatchling.build",
-		},
-		"project": {
-			"name": params.get("name") ?? "project",
-			"version": params.get("version") ?? "0.0.0",
-			"description": params.get("description") ?? "",
-			"requires-python": params.get("requires-python") ?? ">=3.8",
-			"dependencies": [],
-		},
-		"tool.hatch.envs.default": {
-			...(params.has("python") ? { "python": params.get("python") } : {}),
-			"dependencies": [],
-		},
-	});
-	// toml.stringify adds a newline at the beginning of the string.
-	// This just removes it.
-	return text.replace(/^\n/, "");
+	return `\
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "${params.get("name") ?? "project"}"
+version = "${params.get("version") ?? "0.0.0"}"
+description = "${params.get("description") ?? ""}"
+requires-python = "${params.get("requires-python") ?? ">=3.8"}"
+dependencies = []
+
+[tool.hatch.envs.default]
+dependencies = []
+`.trim();
 }
 
 Deno.serve(async (req: Request) => {
