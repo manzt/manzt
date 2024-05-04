@@ -1,4 +1,4 @@
-import { bold, gray, green } from "jsr:@std/fmt@^0.220.1/colors";
+import { bold, gray, green } from "jsr:@std/fmt/colors";
 
 // deno-fmt-ignore
 let text = `\
@@ -88,30 +88,37 @@ select = [
 
 Deno.serve(async (req: Request) => {
 	let url = new URL(req.url);
-	if (url.pathname === "/tsconfig.json") {
-		let url = new URL("./tsconfig.json", import.meta.url);
-		return new Response(await Deno.readTextFile(url), {
-			headers: { "content-type": "application/json" },
-		});
+	switch (`${req.method} ${url.pathname}`) {
+		case "GET /tsconfig.json": {
+			let file = await Deno.open("tsconfig.json", { read: true });
+			return new Response(file.readable, {
+				headers: { "content-type": "application/json" },
+			});
+		}
+		case "GET /deno.json": {
+			let file = await Deno.open("deno.json", { read: true });
+			return new Response(file.readable, {
+				headers: { "content-type": "application/json" },
+			});
+		}
+		case "GET /pyproject.toml": {
+			return new Response(pyproject_toml(url.searchParams), {
+				headers: { "content-type": "text/toml" },
+			});
+		}
+		case "GET /index.html": {
+			return new Response(blank, {
+				headers: { "content-type": "text/html" },
+			});
+		}
+		case "GET /": {
+			if (req.headers.get("Accept")?.includes("text/html")) {
+				return Response.redirect("https://trevorma.nz");
+			}
+			return new Response(text);
+		}
+		default: {
+			return new Response("Not Found", { status: 404 });
+		}
 	}
-	if (url.pathname === "/deno.json") {
-		let url = new URL("./deno.json", import.meta.url);
-		return new Response(await Deno.readTextFile(url), {
-			headers: { "content-type": "application/json" },
-		});
-	}
-	if (url.pathname === "/pyproject.toml") {
-		return new Response(pyproject_toml(url.searchParams), {
-			headers: { "content-type": "text/toml" },
-		});
-	}
-	if (url.pathname === "/index.html") {
-		return new Response(blank, {
-			headers: { "content-type": "text/html" },
-		});
-	}
-	if (req.headers.get("Accept")?.includes("text/html")) {
-		return Response.redirect("https://trevorma.nz");
-	}
-	return new Response(text);
 });
