@@ -33,6 +33,37 @@ let _html = `\
 </samp>
 `.trim();
 
+let pandoc_template = `\
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$title$</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+</head>
+<body class="prose prose-lg max-w-2xl m-auto">
+    <header>
+        <h1>$title$</h1>
+        <div class="space-y-1">
+            $for(authors)$
+                <div class="text-lg font-medium text-gray-800">
+                    $authors.name$
+                </div>
+            $endfor$
+        </div>
+    </header>
+    <main>
+        $body$
+    </main>
+    <footer>
+        <hr>
+        <p>WIP</p>
+    </footer>
+</body>
+</html>
+`.trim();
+
 let blank = `\
 <!doctype html>
 <html lang="en">
@@ -108,6 +139,11 @@ Deno.serve(async (req: Request) => {
 		}
 		case "GET /index.html": {
 			return new Response(blank, {
+				headers: { "content-type": "text/html" },
+			});
+		}
+		case "GET /pandoc.html": {
+			return new Response(pandoc_template, {
 				headers: { "content-type": "text/html" },
 			});
 		}
