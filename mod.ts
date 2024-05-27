@@ -1,4 +1,4 @@
-import { bold, gray, green } from "jsr:@std/fmt/colors";
+import { bold, gray, green } from "jsr:@std/fmt@^0.224.0/colors";
 
 // deno-fmt-ignore
 let text = `\
