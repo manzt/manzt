@@ -90,38 +90,37 @@ description = "${params.get("description") ?? ""}"
 requires-python = "${params.get("requires-python") ?? ">=3.8"}"
 dependencies = []
 
-[tool.hatch.envs.default]
-dependencies = []
-uv = true
+[tool.uv]
 
 [tool.ruff.lint]
 pydocstyle = { convention = "numpy" }
-select = [
-	"E",    # style errors
-	"W",    # style warnings
-	"F",    # flakes
-	"D",    # pydocstyle
-	"D417", # Missing argument descriptions in Docstrings
-	"I",    # isort
-	"UP",   # pyupgrade
-	"C4",   # flake8-comprehensions
-	"B",    # flake8-bugbear
-	"A001", # flake8-builtins
-	"RUF",  # ruff-specific rules
-	"TCH",  # flake8-type-checking
-	"TID",  # flake8-tidy-imports
-]
+select = ["ALL"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*.py" = ["D", "S"]
 `.trim();
 }
 
+let pep723_script = `\
+# /// script
+# requires-python = ">=3.12"
+# dependencies = [
+#     "rich>=13.9.2",
+# ]
+# ///
+
+import rich
+
+rich.print("\\nHello from github.com/[bold green]manzt[/bold green]/[bold green]manzt[/bold green]!")
+`;
+
 Deno.serve(async (req: Request) => {
 	let url = new URL(req.url);
 	switch (`${req.method} ${url.pathname}`) {
 		case "GET /tsconfig.json": {
-			let file = await Deno.open("tsconfig.json", { read: true });
+			let file = await Deno.open("tsconfig.json", {
+				read: true,
+			});
 			return new Response(file.readable, {
 				headers: { "content-type": "application/json" },
 			});
@@ -145,6 +144,11 @@ Deno.serve(async (req: Request) => {
 		case "GET /pandoc.html": {
 			return new Response(pandoc_template, {
 				headers: { "content-type": "text/html" },
+			});
+		}
+		case "GET /hello.py": {
+			return new Response(pep723_script, {
+				headers: { "content-type": "text/plain" },
 			});
 		}
 		case "GET /": {
