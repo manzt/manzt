@@ -114,6 +114,34 @@ import rich
 rich.print("\\nHello from github.com/[bold green]manzt[/bold green]/[bold green]manzt[/bold green]!")
 `;
 
+let anywidget = `\
+import anywidget
+import traitlets
+
+
+class Widget(anywidget.AnyWidget):
+    _esm = """
+    function render({ model, el }) {
+      let count = () => model.get("value");
+      let btn = document.createElement("button");
+      btn.innerHTML = \`count is \${count()}\`;
+      btn.addEventListener("click", () => {
+        model.set("value", count() + 1);
+        model.save_changes();
+      });
+      model.on("change:value", () => {
+        btn.innerHTML = \`count is \${count()}\`;
+      });
+      el.appendChild(btn);
+    }
+    export default { render };
+    """
+    value = traitlets.Int(0).tag(sync=True)
+    
+Widget()
+`.trim();
+
+
 Deno.serve(async (req: Request) => {
 	let url = new URL(req.url);
 	switch (`${req.method} ${url.pathname}`) {
@@ -148,6 +176,11 @@ Deno.serve(async (req: Request) => {
 		}
 		case "GET /hello.py": {
 			return new Response(pep723_script, {
+				headers: { "content-type": "text/plain" },
+			});
+		}
+		case "GET /widget.py": {
+			return new Response(anywidget, {
 				headers: { "content-type": "text/plain" },
 			});
 		}
