@@ -1,18 +1,4 @@
 /**
- * @typedef {new (...args: any[]) => Error} ErrorConstructor
- */
-
-/**
- * @template T
- * @typedef {T extends new (...args: any[]) => infer R ? R : never} InstanceType
- */
-
-/**
- * @template {ReadonlyArray<new (...args: any[]) => any>} T
- * @typedef {InstanceType<T[number]>} UnionInstanceType
- */
-
-/**
  * Ensures an error matches expected type(s), otherwise rethrows.
  *
  * Unmatched errors bubble up, like Python's `except`. Narrows error types for
@@ -27,18 +13,18 @@
  * try {
  *   await db.query();
  * } catch (err) {
- *   except(err, DatabaseError, NetworkError);
+ *   rethrowUnless(err, DatabaseError, NetworkError);
  *   err // DatabaseError | NetworkError
  * }
  * ```
  *
- * @template {ReadonlyArray<ErrorConstructor>} E
+ * @template {ReadonlyArray<new (...args: any[]) => Error>} E
  * @param {unknown} error - The error to check
  * @param {E} errors - Expected error type(s)
  * @throws The original error if it doesn't match expected type(s)
- * @returns {asserts error is UnionInstanceType<E>}
+ * @returns {asserts error is E[number] extends new (...args: any[]) => infer R ? R : never}
  */
-export function except(error, ...errors) {
+export function rethrowUnless(error, ...errors) {
 	if (!errors.some((ErrorClass) => error instanceof ErrorClass)) {
 		throw error;
 	}

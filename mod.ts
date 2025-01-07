@@ -141,7 +141,6 @@ class Widget(anywidget.AnyWidget):
 Widget()
 `.trim();
 
-
 Deno.serve(async (req: Request) => {
 	let url = new URL(req.url);
 	switch (`${req.method} ${url.pathname}`) {
