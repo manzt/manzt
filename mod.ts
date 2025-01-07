@@ -144,6 +144,22 @@ Widget()
 Deno.serve(async (req: Request) => {
 	let url = new URL(req.url);
 	switch (`${req.method} ${url.pathname}`) {
+		case "GET /assert.js": {
+			let file = await Deno.open("utils/assert.js", {
+				read: true,
+			});
+			return new Response(file.readable, {
+				headers: { "content-type": "text/javascript" },
+			});
+		}
+		case "GET /rethrow-unless.js": {
+			let file = await Deno.open("utils/rethrow-unless.js", {
+				read: true,
+			});
+			return new Response(file.readable, {
+				headers: { "content-type": "text/javascript" },
+			});
+		}
 		case "GET /tsconfig.json": {
 			let file = await Deno.open("tsconfig.json", {
 				read: true,
