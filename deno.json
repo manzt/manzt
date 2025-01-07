@@ -1,5 +1,8 @@
 {
 	"lock": false,
+	"compilerOptions": {
+		"checkJs": true
+	},
 	"fmt": {
 		"useTabs": true
 	},
