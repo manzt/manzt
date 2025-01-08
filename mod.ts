@@ -160,6 +160,14 @@ Deno.serve(async (req: Request) => {
 				headers: { "content-type": "text/javascript" },
 			});
 		}
+		case "GET /gunzip.js": {
+			let file = await Deno.open("utils/gunzip.js", {
+				read: true,
+			});
+			return new Response(file.readable, {
+				headers: { "content-type": "text/javascript" },
+			});
+		}
 		case "GET /tsconfig.json": {
 			let file = await Deno.open("tsconfig.json", {
 				read: true,
