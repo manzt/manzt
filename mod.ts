@@ -143,12 +143,12 @@ Widget()
 `.trim();
 
 async function fetchLatestRev(repo: string): Promise<string> {
-	let href = `https://api.github.com/repos/${repo}/commits/main`;
-	let response = await fetch(href, {
-		headers: {
-			"Accept": "application/vnd.github.v3+json",
+	let response = await fetch(
+		`https://api.github.com/repos/${repo}/commits/main`,
+		{
+			headers: { "Accept": "application/vnd.github.v3+json" },
 		},
-	});
+	);
 	assert(response.ok, "Failed response.");
 	let data = await response.json();
 	return data.sha;
@@ -156,16 +156,16 @@ async function fetchLatestRev(repo: string): Promise<string> {
 
 async function utilResponse(filename: string) {
 	let repo = "manzt/manzt";
-	let sha = await fetchLatestRev(repo);
-	return new Response(
-		`// Copyright (c) 2024 Trevor Manz. All rights reserved. MIT License.
-// Source: https://github.com/${repo}/blob/${sha}/utils/${filename}
-
-${await Deno.readTextFile(`utils/${filename}`)}`,
-		{
-			headers: { "content-type": "text/javascript" },
-		},
+	let sha = (await fetchLatestRev(repo)).slice(0, 6);
+	let contents = await Deno.readTextFile(`utils/${filename}`);
+	let source = `https://github.com/${repo}/blob/${sha}/utils/${filename}`;
+	contents = contents.replace(
+		/\*\//, // Match the end of the JSDoc comment
+		`*\n * @copyright Trevor Manz 2024\n * @license MIT\n * @see {@link ${source}}\n */`,
 	);
+	return new Response(contents, {
+		headers: { "content-type": "text/javascript" },
+	});
 }
 
 Deno.serve(async (req: Request) => {
