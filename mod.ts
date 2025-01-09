@@ -157,15 +157,18 @@ async function fetchLatestRev(repo: string): Promise<string> {
 async function utilResponse(filename: string) {
 	let repo = "manzt/manzt";
 	let sha = (await fetchLatestRev(repo)).slice(0, 6);
-	let contents = await Deno.readTextFile(`utils/${filename}`);
 	let source = `https://github.com/${repo}/blob/${sha}/utils/${filename}`;
-	contents = contents.replace(
-		/\*\//, // Match the end of the JSDoc comment
-		`*\n * @copyright Trevor Manz 2024\n * @license MIT\n * @see {@link ${source}}\n */`,
+	let year = new Date().getFullYear().toString();
+	let contents = await Deno.readTextFile(`utils/${filename}`);
+	return new Response(
+		contents.replace(
+			/\*\//, // Match the end of the JSDoc comment
+			`*\n * @copyright Trevor Manz ${year}\n * @license MIT\n * @see {@link ${source}}\n */`,
+		),
+		{
+			headers: { "content-type": "text/javascript" },
+		},
 	);
-	return new Response(contents, {
-		headers: { "content-type": "text/javascript" },
-	});
 }
 
 Deno.serve(async (req: Request) => {
