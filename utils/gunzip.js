@@ -1,5 +1,3 @@
-// Copyright (c) 2024 Trevor Manz. All rights reserved. MIT License.
-
 /**
  * Decompresses a gzipped Uint8Array or ReadableStream into a Uint8Array.
  *

@@ -1,4 +1,5 @@
 import { bold, gray, green } from "jsr:@std/fmt@^0.224.0/colors";
+import { assert } from "./utils/assert.js";
 
 // deno-fmt-ignore
 let text = `\
@@ -137,36 +138,47 @@ class Widget(anywidget.AnyWidget):
     export default { render };
     """
     value = traitlets.Int(0).tag(sync=True)
-    
+
 Widget()
 `.trim();
+
+async function fetchLatestRev(repo: string): Promise<string> {
+	let href = `https://api.github.com/repos/${repo}/commits/main`;
+	let response = await fetch(href, {
+		headers: {
+			"Accept": "application/vnd.github.v3+json",
+		},
+	});
+	assert(response.ok, "Failed response.");
+	let data = await response.json();
+	return data.sha;
+}
+
+async function utilResponse(filename: string) {
+	let repo = "manzt/manzt";
+	let sha = await fetchLatestRev(repo);
+	return new Response(
+		`// Copyright (c) 2024 Trevor Manz. All rights reserved. MIT License.
+// Source: https://github.com/${repo}/blob/${sha}/utils/${filename}
+
+${await Deno.readTextFile(`utils/${filename}`)}`,
+		{
+			headers: { "content-type": "text/javascript" },
+		},
+	);
+}
 
 Deno.serve(async (req: Request) => {
 	let url = new URL(req.url);
 	switch (`${req.method} ${url.pathname}`) {
 		case "GET /assert.js": {
-			let file = await Deno.open("utils/assert.js", {
-				read: true,
-			});
-			return new Response(file.readable, {
-				headers: { "content-type": "text/javascript" },
-			});
+			return utilResponse("assert.js");
 		}
 		case "GET /rethrow-unless.js": {
-			let file = await Deno.open("utils/rethrow-unless.js", {
-				read: true,
-			});
-			return new Response(file.readable, {
-				headers: { "content-type": "text/javascript" },
-			});
+			return utilResponse("rethrow-unless.js");
 		}
 		case "GET /gunzip.js": {
-			let file = await Deno.open("utils/gunzip.js", {
-				read: true,
-			});
-			return new Response(file.readable, {
-				headers: { "content-type": "text/javascript" },
-			});
+			return utilResponse("gunzip.js");
 		}
 		case "GET /tsconfig.json": {
 			let file = await Deno.open("tsconfig.json", {
