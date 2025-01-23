@@ -1,5 +1,5 @@
 <p align="center">
-  <span>I'm a software engineer and visualization researcher. I have a PhD in biomedical informatics and genomics</span>
+  <span>I'm a software engineer and visualization researcher. I have a PhD in biomedical informatics and genomics.</span>
   <br>
   <br>
   <samp>
