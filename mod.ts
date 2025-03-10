@@ -180,8 +180,8 @@ Deno.serve(async (req: Request) => {
 		case "GET /rethrow-unless.js": {
 			return utilResponse("rethrow-unless.js");
 		}
-		case "GET /gunzip.js": {
-			return utilResponse("gunzip.js");
+		case "GET /decompress.js": {
+			return utilResponse("decompress.js");
 		}
 		case "GET /tsconfig.json": {
 			let file = await Deno.open("tsconfig.json", {
