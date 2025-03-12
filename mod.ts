@@ -228,6 +228,9 @@ Deno.serve(async (req: Request) => {
 			}
 			return new Response(text);
 		}
+		case "HEAD /": {
+			return new Response();
+		}
 		default: {
 			return new Response("Not Found", { status: 404 });
 		}
