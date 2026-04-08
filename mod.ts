@@ -160,10 +160,11 @@ async function utilResponse(filename: string) {
 	let source = `https://github.com/${repo}/blob/${sha}/utils/${filename}`;
 	let year = new Date().getFullYear().toString();
 	let contents = await Deno.readTextFile(`utils/${filename}`);
+	let tags = ` *\n * @copyright Trevor Manz ${year}\n * @license MIT\n * @see {@link ${source}}\n`;
 	return new Response(
-		contents.replace(
-			/\*\//, // Match the end of the JSDoc comment
-			`*\n * @copyright Trevor Manz ${year}\n * @license MIT\n * @see {@link ${source}}\n */`,
+		contents.replaceAll(
+			/\n \*\//g,
+			`\n${tags} */`,
 		),
 		{
 			headers: { "content-type": "text/javascript" },
@@ -176,6 +177,9 @@ Deno.serve(async (req: Request) => {
 	switch (`${req.method} ${url.pathname}`) {
 		case "GET /assert.js": {
 			return utilResponse("assert.js");
+		}
+		case "GET /assert.ts": {
+			return utilResponse("assert.ts");
 		}
 		case "GET /rethrow-unless.js": {
 			return utilResponse("rethrow-unless.js");
