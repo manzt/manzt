@@ -177,6 +177,9 @@ Deno.serve(async (req: Request) => {
 		case "GET /assert.js": {
 			return utilResponse("assert.js");
 		}
+		case "GET /assert.ts": {
+			return utilResponse("assert.ts");
+		}
 		case "GET /rethrow-unless.js": {
 			return utilResponse("rethrow-unless.js");
 		}
